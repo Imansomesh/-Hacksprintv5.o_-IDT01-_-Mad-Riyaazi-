@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Nutrition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Precision Nutrition</h1>
+    <form id="nutritionForm">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label for="activityLevel">Activity Level:</label>
+        <select id="activityLevel" name="activityLevel" required>
+            <option value="sedentary">Sedentary</option>
+            <option value="moderate">Moderate</option>
+            <option value="active">Active</option>
+        </select>
+
+        <button type="button" onclick="submitForm()">Get Nutrition Recommendations</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function submitForm() {
+            // Get user input values
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+            const activityLevel = document.getElementById('activityLevel').value;
+
+            // Send user data to the server (you would use AJAX/fetch to send this data to the backend)
+            // For simplicity, let's assume a hypothetical endpoint /get_nutrition_recommendations
+            // and use a placeholder URL.
+            fetch('/get_nutrition_recommendations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ age, gender, activityLevel }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the result on the web page
+                document.getElementById('result').innerHTML = `<h2>Nutrition Recommendations</h2>
+                    <p>Caloric Needs: ${data.caloricNeeds} kcal</p>
+                    <p>Protein Intake: ${data.proteinIntake} grams</p>
+                    <p>Carbohydrate Intake: ${data.carbohydrateIntake} grams</p>
+                    <p>Fat Intake: ${data.fatIntake} grams</p>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
